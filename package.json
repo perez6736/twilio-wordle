@@ -1,0 +1,20 @@
+{
+  "name": "twilio-wordle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "twilio.js",
+  "scripts": {
+    "start": "node twilio.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perez6736/twilio-wordle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/perez6736/twilio-wordle/issues"
+  },
+  "homepage": "https://github.com/perez6736/twilio-wordle#readme"
+}
