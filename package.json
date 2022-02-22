@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/perez6736/twilio-wordle/issues"
   },
-  "homepage": "https://github.com/perez6736/twilio-wordle#readme"
+  "homepage": "https://github.com/perez6736/twilio-wordle#readme",
+  "dependencies": {
+    "csv-parser": "^3.0.0"
+  }
 }
