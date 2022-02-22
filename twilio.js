@@ -41,24 +41,29 @@ function getPhoneNumber(i) {
 
 // get todays word.
 function getWordOfTheDay() {
-  let now = new Date();
-  csvToJson.then((results) => {
-    let todaysWord = results.filter((result) => {
-      let wordleDay = new Date(result.Date);
-      if (
-        wordleDay.getMonth() == now.getMonth() &&
-        wordleDay.getDay() == now.getDay()
-      ) {
-        return true;
-      }
+  return new Promise((resolve, reject) => {
+    let now = new Date();
+    let todaysWord;
+    csvToJson.then((results) => {
+      todaysWord = results.filter((result) => {
+        let wordleDay = new Date(result.Date);
+        if (
+          wordleDay.getMonth() == now.getMonth() &&
+          wordleDay.getDate() == now.getDate()
+        ) {
+          return true;
+        }
+      });
+      return resolve(todaysWord[0]);
     });
-    return todaysWord;
   });
 }
 
-function createTwilioCommand() {
-  let todaysWord = getWordOfTheDay();
-  console.log(todaysWord.PN);
-  //let PhoneNumber = getPhoneNumber(todaysWord.PN);
+async function createTwilioCommand() {
+  const todaysWord = await getWordOfTheDay();
+  console.log(todaysWord);
+  let PhoneNumber = await getPhoneNumber(todaysWord.PN);
+  console.log(PhoneNumber);
 }
+
 createTwilioCommand();
