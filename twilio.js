@@ -59,7 +59,7 @@ async function createTwilioCommand() {
         `${todaysWord.Word} is todays word. This is an automated message kek`
       );
       console.log(
-        `sent to - ${process.env.toPhoneNumber}` //|| twilioConfig.toPhoneNumber}
+        `sent to - ${process.env.TOPHONENUMBER}` //|| twilioConfig.toPhoneNumber}
       );
       console.log(`sent from - ${PhoneNumber.Number}`);
       console.log(message.sid);
