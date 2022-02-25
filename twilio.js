@@ -48,25 +48,34 @@ async function createTwilioCommand() {
   console.log(todaysWord);
   let PhoneNumber = await getPhoneNumberObj(todaysWord.PN);
   console.log(PhoneNumber);
-  client.messages
-    .create({
-      body: `${todaysWord.Word} is todays word. This is an automated message kek`,
-      from: PhoneNumber.Number,
-      to: process.env.TOPHONENUMBER, //|| twilioConfig.toPhoneNumber,
-    })
-    .then((message) => {
-      console.log(
-        `${todaysWord.Word} is todays word. This is an automated message kek`
-      );
-      console.log(
-        `sent to - ${process.env.TOPHONENUMBER}` //|| twilioConfig.toPhoneNumber}
-      );
-      console.log(`sent from - ${PhoneNumber.Number}`);
-      console.log(message.sid);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+
+  console.log(
+    `${todaysWord.Word} is todays word. This is an automated message kek`
+  );
+  console.log(
+    `sent to - ${process.env.TOPHONENUMBER}` //|| twilioConfig.toPhoneNumber}
+  );
+  console.log(`sent from - ${PhoneNumber.Number}`);
+  console.log(message.sid);
+  // client.messages
+  //   .create({
+  //     body: `${todaysWord.Word} is todays word. This is an automated message kek`,
+  //     from: PhoneNumber.Number,
+  //     to: process.env.TOPHONENUMBER, //|| twilioConfig.toPhoneNumber,
+  //   })
+  //   .then((message) => {
+  //     console.log(
+  //       `${todaysWord.Word} is todays word. This is an automated message kek`
+  //     );
+  //     console.log(
+  //       `sent to - ${process.env.TOPHONENUMBER}` //|| twilioConfig.toPhoneNumber}
+  //     );
+  //     console.log(`sent from - ${PhoneNumber.Number}`);
+  //     console.log(message.sid);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 }
 
 createTwilioCommand();
