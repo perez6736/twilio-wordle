@@ -1,24 +1,12 @@
 const fs = require("fs");
 const csv = require("csv-parser");
+const twilioConfig = require("./config.js");
+const authToken = process.env.TOKEN || twilioConfig.token;
+const accountSid = process.env.SID || twilioConfig.SID; // these needs to change based on the phone number
+const client = require("twilio")(accountSid, authToken); // needs SID set before this.
+const PhoneNumbers = require("./phoneNumbers.js");
 
 const wordleJSON = [];
-
-//flow of tasks
-// grab a phone number we want to use - done
-// grab the word of the day - done
-// set up twilio to send SMS
-
-//things to test before setting it live.
-// - if the script will loop through the phone numbers and words correctly. - use setTimeout at first then on heroku
-// see if each phone number can send a sms -
-
-// get list of phone numbers.
-const fileReader = new Promise((resolve, reject) => {
-  fs.readFile("phoneNumbers.txt", "utf8", function (err, data) {
-    if (err) reject(err);
-    return resolve(data.split(","));
-  });
-});
 
 const csvToJson = new Promise((resolve, reject) => {
   fs.createReadStream("wordle.csv")
@@ -29,13 +17,9 @@ const csvToJson = new Promise((resolve, reject) => {
     });
 });
 
-function getPhoneNumber(i) {
+function getPhoneNumberObj(i) {
   return new Promise((resolve, reject) => {
-    fileReader.then((results) => {
-      //grab the phone number we will use and save it in the variable.
-      let phoneNumber = results[i - 1]; // the pn in csv starts at 1
-      return resolve(phoneNumber);
-    });
+    return resolve(PhoneNumbers[i]);
   });
 }
 
@@ -62,8 +46,27 @@ function getWordOfTheDay() {
 async function createTwilioCommand() {
   const todaysWord = await getWordOfTheDay();
   console.log(todaysWord);
-  let PhoneNumber = await getPhoneNumber(todaysWord.PN);
+  let PhoneNumber = await getPhoneNumberObj(todaysWord.PN);
   console.log(PhoneNumber);
+  client.messages
+    .create({
+      body: `${todaysWord.Word} is todays word. This is an automated message kek`,
+      from: PhoneNumber.Number,
+      to: process.env.toPhoneNumber || twilioConfig.toPhoneNumber,
+    })
+    .then((message) => {
+      console.log(
+        `${todaysWord.Word} is todays word. This is an automated message kek`
+      );
+      console.log(
+        `sent to - ${process.env.toPhoneNumber || twilioConfig.toPhoneNumber}`
+      );
+      console.log(`sent from - ${PhoneNumber.Number}`);
+      console.log(message.sid);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 createTwilioCommand();
