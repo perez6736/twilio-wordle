@@ -52,7 +52,7 @@ async function createTwilioCommand() {
     .create({
       body: `${todaysWord.Word} is todays word. This is an automated message kek`,
       from: PhoneNumber.Number,
-      to: process.env.toPhoneNumber, //|| twilioConfig.toPhoneNumber,
+      to: process.env.TOPHONENUMBER, //|| twilioConfig.toPhoneNumber,
     })
     .then((message) => {
       console.log(
